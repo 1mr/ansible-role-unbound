@@ -1,0 +1,14 @@
+---
+- name: restart unbound
+  systemd: name=unbound state=restarted
+  notify: check unbound
+
+- name: reload unbound
+  systemd: name=unbound state=reloaded
+  notify: check unbound
+
+- name: check unbound
+  command: /usr/sbin/unbound-checkconf /etc/unbound/unbound.conf
+
+- name: reload apparmor
+  command: apparmor_parser -r /etc/apparmor.d/usr.sbin.unbound

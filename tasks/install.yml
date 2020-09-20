@@ -1,0 +1,23 @@
+---
+- name: install
+  apt: name=unbound
+
+- name: ensure log file exist
+  file: path={{ unbound_logfile }} state=touch owner=unbound mode=0644
+  notify: restart unbound
+
+- name: add apparmor local rules
+  template: src={{ item }}.j2 dest=/etc/apparmor.d/local/{{ item }} mode=0644
+  notify: reload apparmor
+  with_items:
+    - usr.sbin.unbound
+
+- name: add logrotate config
+  template: src=logrotate.j2 dest=/etc/logrotate.d/unbound mode=0644
+
+- name: update root.hints
+  get_url: url=https://www.internic.net/domain/named.cache dest=/etc/unbound/root.hints
+
+- name: change system nameserver
+  lineinfile: path=/etc/resolv.conf regexp="^nameserver" line="nameserver 127.0.0.1\n"
+  when: unbound_resolvconf
