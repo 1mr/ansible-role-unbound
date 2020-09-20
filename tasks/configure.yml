@@ -1,6 +1,6 @@
 ---
 - name: copy config file(s)
-  template: 
+  template:
     src: "{{ item }}.j2"
     dest: "/etc/unbound/unbound.conf.d/{{ item }}"
     mode: 0644
