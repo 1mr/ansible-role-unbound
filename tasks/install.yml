@@ -1,4 +1,7 @@
 ---
+- name: get package facts
+  package_facts: manager=auto strategy=first
+
 - name: install
   apt: name=unbound
 
@@ -11,6 +14,7 @@
   notify: reload apparmor
   with_items:
     - usr.sbin.unbound
+  when: "'apparmor' in ansible_facts.packages"
 
 - name: add logrotate config
   template: src=logrotate.j2 dest=/etc/logrotate.d/unbound mode=0644

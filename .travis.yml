@@ -6,7 +6,7 @@ sudo: false
 
 env:
   global:
-    - ROLE_NAME: zabbix-agent2
+    - ROLE_NAME: unbound
   matrix:
     - MOLECULE_DISTRO: buster
     - MOLECULE_DISTRO: stretch
