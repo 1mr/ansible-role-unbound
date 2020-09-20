@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: unbound
   author: Stas Stavnichuk
   description: install and configure unbound
   license: MIT
